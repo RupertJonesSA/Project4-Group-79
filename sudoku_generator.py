@@ -17,9 +17,9 @@ class SudokuGenerator:
 	self.box_length		- the square root of row_length
 
 	Parameters:
-    row_length is the number of rows/columns of the board (always 9 for this project)
-    removed_cells is an integer value - the number of cells to be removed
-
+    	row_length is the number of rows/columns of the board (always 9 for this project)
+    	removed_cells is an integer value - the number of cells to be removed
+	
 	Return:
 	None
     '''
@@ -40,7 +40,7 @@ class SudokuGenerator:
 
     '''
 	Displays the board to the console
-    This is not strictly required, but it may be useful for debugging purposes
+    	This is not strictly required, but it may be useful for debugging purposes
 
 	Parameters: None
 	Return: None
@@ -53,7 +53,7 @@ class SudokuGenerator:
 
     '''
 	Determines if num is contained in the specified row (horizontal) of the board
-    If num is already in the specified row, return False. Otherwise, return True
+    	If num is already in the specified row, return False. Otherwise, return True
 
 	Parameters:
 	row is the index of the row we are checking
@@ -69,7 +69,7 @@ class SudokuGenerator:
 
     '''
 	Determines if num is contained in the specified column (vertical) of the board
-    If num is already in the specified col, return False. Otherwise, return True
+    	If num is already in the specified col, return False. Otherwise, return True
 
 	Parameters:
 	col is the index of the column we are checking
@@ -85,8 +85,8 @@ class SudokuGenerator:
 
     '''
 	Determines if num is contained in the 3x3 box specified on the board
-    If num is in the specified box starting at (row_start, col_start), return False.
-    Otherwise, return True
+    	If num is in the specified box starting at (row_start, col_start), return False.
+    	Otherwise, return True
 
 	Parameters:
 	row_start and col_start are the starting indices of the box to check
@@ -111,8 +111,8 @@ class SudokuGenerator:
         return True
     
     '''
-    Determines if it is valid to enter num at (row, col) in the board
-    This is done by checking that num is unused in the appropriate, row, column, and box
+	Determines if it is valid to enter num at (row, col) in the board
+    	This is done by checking that num is unused in the appropriate, row, column, and box
 
 	Parameters:
 	row and col are the row index and col index of the cell to check in the board
@@ -127,8 +127,8 @@ class SudokuGenerator:
         return (condition1 and condition2 and condition3)
 
     '''
-    Fills the specified 3x3 box with values
-    For each position, generates a random digit which has not yet been used in the box
+    	Fills the specified 3x3 box with values
+    	For each position, generates a random digit which has not yet been used in the box
 
 	Parameters:
 	row_start and col_start are the starting indices of the box to check
@@ -146,8 +146,8 @@ class SudokuGenerator:
                 self.board[r][c] = random_digit 
 
     '''
-    Fills the three boxes along the main diagonal of the board
-    These are the boxes which start at (0,0), (3,3), and (6,6)
+    	Fills the three boxes along the main diagonal of the board
+    	These are the boxes which start at (0,0), (3,3), and (6,6)
 
 	Parameters: None
 	Return: None
@@ -158,10 +158,10 @@ class SudokuGenerator:
         self.fill_box(6, 6)
 
     '''
-    DO NOT CHANGE
-    Provided for students
-    Fills the remaining cells of the board
-    Should be called after the diagonal boxes have been filled
+    	DO NOT CHANGE
+    	Provided for students
+    	Fills the remaining cells of the board
+    	Should be called after the diagonal boxes have been filled
 	
 	Parameters:
 	row, col specify the coordinates of the first empty (0) cell
@@ -197,9 +197,9 @@ class SudokuGenerator:
         return False
 
     '''
-    DO NOT CHANGE
-    Provided for students
-    Constructs a solution by calling fill_diagonal and fill_remaining
+    	DO NOT CHANGE
+    	Provided for students
+    	Constructs a solution by calling fill_diagonal and fill_remaining
 
 	Parameters: None
 	Return: None
@@ -209,13 +209,13 @@ class SudokuGenerator:
         self.fill_remaining(0, self.box_length)
 
     '''
-    Removes the appropriate number of cells from the board
-    This is done by setting some values to 0
-    Should be called after the entire solution has been constructed
-    i.e. after fill_values has been called
+    	Removes the appropriate number of cells from the board
+    	This is done by setting some values to 0
+    	Should be called after the entire solution has been constructed
+    	i.e. after fill_values has been called
     
-    NOTE: Be careful not to 'remove' the same cell multiple times
-    i.e. if a cell is already 0, it cannot be removed again
+    	NOTE: Be careful not to 'remove' the same cell multiple times
+    	i.e. if a cell is already 0, it cannot be removed again
 
 	Parameters: None
 	Return: None
