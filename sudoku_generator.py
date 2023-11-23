@@ -139,9 +139,9 @@ class SudokuGenerator:
     def fill_box(self, row_start, col_start):
         for r in range(row_start, row_start + 3):
             for c in range(col_start, col_start + 3): 
-                random_digit = (random.randint() * 10) + 1
+                random_digit = random.randint(1, 10)
                 while (not (self.valid_in_box(row_start, col_start, random_digit))):
-                    random_digit = (random.randint() * 10) + 1
+                    random_digit = random.randint(1, 10)
 
                 self.board[r][c] = random_digit 
 
@@ -221,7 +221,13 @@ class SudokuGenerator:
 	Return: None
     '''
     def remove_cells(self):
-        pass
+        need_removed = self.removed_cells
+        while(need_removed):
+            row = random.randint(0, self.row_length - 1)
+            col = random.randint(0, self.row_length - 1)
+            if (self.board[row][col] != 0):
+                self.board[row][col] = 0
+                need_removed -= 1
 
 '''
 DO NOT CHANGE
