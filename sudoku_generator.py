@@ -253,8 +253,3 @@ def generate_sudoku(size, removed):
     board = sudoku.get_board()
     return board
 
-b = generate_sudoku(9, 8)
-for r in b:
-    for c in r:
-        print(c, end=" ")
-    print()
