@@ -70,3 +70,6 @@ class Board:
                 if not self.is_valid(i, j, self.board[i][j]):
                     return False
         return True
+
+    def board(self):
+        passg
