@@ -41,35 +41,4 @@ class Board:
     def place_number(self, value):
         self.cells[self.row][self.col].set_cell_value(value)
 
-    def reset_to_original(self):
-        self.cells = [[Cell(self.board[row][cols], row, cols, self.screen) for cols in range(9)] for row in range(9)]
 
-    def is_full(self):
-        for i in range(9):
-            for j in range(9):
-                if self.cells[i][j].value == 0:
-                    return False
-        return True
-
-    def update_board(self):
-        if self.board_is_full():
-            for i in range(9):
-                for j in range(9):
-                    self.board[i][j] = self.cells[i][j].value
-
-    def find_empty(self):
-        for i in range(9):
-            for j in range(9):
-                if self.board[i][j] == None:
-                    return True
-        return False
-
-    def check_board(self):
-        for i in range(9):
-            for j in range(9):
-                if not self.is_valid(i, j, self.board[i][j]):
-                    return False
-        return True
-
-    def board(self):
-        passg
