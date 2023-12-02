@@ -1,10 +1,12 @@
 # Class created by Rogeh Beshay
 
-import pygame
+import pygame as pg
 
 class Cell:
 
     def __init__(self, value, row, col, screen):
+        self.initial = False
+        self.selected = False
         self.chosen = False
         self.sketch_value = 0
         self.value = value
@@ -20,22 +22,22 @@ class Cell:
 
     def draw(self):
         if self.chosen == False:
-            pygame.draw.rect(self.screen, (255, 0, 0), pygame.Rect(self.col * 100, self.row * 100, 100, 100), 5)
+            pg.draw.rect(self.screen, (255, 0, 0), pg.Rect(self.col * 100, self.row * 100, 100, 100), 6)
 
         if (self.sketch_value != 0) and (self.value == 0):
-            font = pygame.font.Font(None, 75)
+            font = pg.font.Font(None, 75)
             surface = font.render(str(self.sketch_value), 0, (100, 100, 100))
-            rectangle = surface.get_rect(center=(self.col * 100 + 100 // 2, self.row * 100 + 100 // 2))
+            rectangle = surface.get_rect(center=(self.col * 100 + 50, self.row * 100 + 50))
             self.screen.blit(surface, rectangle)
 
         elif (self.value != 0) and (self.sketch_value == 0):
-            font = pygame.font.Font(None, 125)
+            font = pg.font.Font(None, 125)
             surface = font.render(str(self.value), 0, (0, 0, 0))
-            rectangle = surface.get_rect(center=(self.col * 100 + 100 // 2, self.row * 100 + 100 // 2))
+            rectangle = surface.get_rect(center=(self.col * 100 + 50, self.row * 100 + 50))
             self.screen.blit(surface, rectangle)
 
         elif (self.value != 0) and (self.sketch_value != 0):
-            font = pygame.font.Font(None, 125)
+            font = pg.font.Font(None, 125)
             surface = font.render(str(self.value), 0, (128, 128, 128))
-            rectangle = surface.get_rect(center=(self.col * 100 + 100 // 2, self.row * 100 + 100 // 2))
+            rectangle = surface.get_rect(center=(self.col * 100 + 50, self.row * 100 + 50))
             self.screen.blit(surface, rectangle)
