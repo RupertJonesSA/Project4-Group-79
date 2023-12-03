@@ -1,5 +1,4 @@
 # Class created by Rogeh Beshay
-
 import pygame as pg
 
 class Cell:
@@ -29,7 +28,7 @@ class Cell:
             surface = font.render(str(self.sketch_value), 0, (100, 100, 100))
             rectangle = surface.get_rect(center=(self.col * 100 + 50, self.row * 100 + 50))
             self.screen.blit(surface, rectangle)
-
+         
         elif (self.value != 0) and (self.sketch_value == 0):
             font = pg.font.Font(None, 125)
             surface = font.render(str(self.value), 0, (0, 0, 0))

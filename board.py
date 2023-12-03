@@ -1,4 +1,4 @@
-from sudoku_generator import SudokuGenerator
+from sudoku_generator import generate_sudoku
 import sys
 from cell import Cell
 import pygame as pg
@@ -9,19 +9,29 @@ class Board:
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
-        self.board = SudokuGenerator(SudokuGenerator.row_length, SudokuGenerator.removed_cells)
+        self.answer, self.board = generate_sudoku(9, difficulty)
         self.cells = [[Cell(self.board[row][cols], row, cols, self.screen) for cols in range(9)] for row in range(9)]
 
     def draw(self):
-        self.screen.fill(255, 255, 245)
-        for i in range(1, 10):
-            if (i == 3 or 6 or 9):
-                pg.draw.line(self.screen, (0, 0, 0), (0, i * 100), (900, i * 100), 6)
+        self.screen.fill(pg.Color("DarkRed"))
+        margin = 2
+        # Draw rectangle/square based on width and height attributes
+        pg.draw.rect(self.screen, pg.Color("black"), pg.Rect(margin, margin, self.width - margin*2, self.height - margin*2), 10)
+        
+        # Iterates based on the dimensions (self.height and self.width). Draws 9 horizontal and 9 vertical lines
+        i = 1
+        while (i * 100) < self.height - 30:
+            line_width = 5 if i % 3 > 0 else 10
+            pg.draw.line(self.screen, pg.Color("black"), pg.Vector2((i * 100) + margin, margin), pg.Vector2((i * 100) + margin, self.width - margin), line_width)
+            pg.draw.line(self.screen, pg.Color("black"), pg.Vector2(margin, (i * 100) + margin), pg.Vector2(self.height - margin, (i * 100) + margin), line_width)
+            i += 1 
+        
+        for row in self.cells:
+            for col in row:
+                col.draw()
 
     def select(self, row, col):
-        for i in range(9):
-            for j in range(9):
-                self.cells[row][col].selected = False
+        self.cells[row][col].selected = 1
 
     def click(self, x, y):
         if (x < self.width) and (y < self.height):
@@ -52,10 +62,9 @@ class Board:
         return True
 
     def update_board(self):
-        if self.board_is_full():
-            for i in range(9):
-                for j in range(9):
-                    self.board[i][j] = self.cells[i][j].value
+        for i in range(9):
+            for j in range(9):
+                self.board[i][j] = self.cells[i][j].value
 
     def find_empty(self):
         for i in range(9):
