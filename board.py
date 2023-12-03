@@ -1,5 +1,4 @@
 from sudoku_generator import generate_sudoku
-import sys
 from cell import Cell
 import pygame as pg
 
@@ -72,7 +71,7 @@ class Board:
        self.cells = [[Cell(self.original_board[row][cols], row, cols, self.screen, 1 if self.original_board[row][cols] != 0 else 0) 
                       for cols in range(9)] for row in range(9)] 
         
-
+    # Checks every cell on the board to see if filled
     def is_full(self):
         for i in range(9):
             for j in range(9):
@@ -80,11 +79,13 @@ class Board:
                     return False
         return True
 
+    # Updates values in used_board to match the values in cells to compare with answer in check_board()
     def update_board(self):
         for i in range(9):
             for j in range(9):
                 self.used_board[i][j] = self.cells[i][j].value
 
+    # Checks each cell in the board and compares the value in it to the value of that cell in the answer board
     def check_board(self):
         for r in range(9):
             for c in range(9):
