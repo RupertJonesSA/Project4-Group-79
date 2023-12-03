@@ -1,3 +1,4 @@
+# Main driver made by Sami Al-Jamal
 import pygame as pg
 from sudoku_generator import generate_sudoku
 from board import Board
@@ -13,40 +14,164 @@ SCREEN = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 BG = pg.image.load('assets/real_background.png').convert_alpha()
 # src: https://www.google.com/url?sa=i&url=https%3A%2F%2Ftwitter.com%2FPinkySoulOG%2Fstatus%2F1624928442339717128&psig=
 #      AOvVaw1rC3LoDn4R5d7KORUwcnQ9&ust=1701483433610000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCOjTze-V7YIDFQAAAAAdAAAAABAE
+
+# Loading in all the assets and images to be used in the program
 EASY_IMAGE = pg.image.load('assets/easy.png').convert_alpha()
 NORMAL_IMAGE = pg.image.load('assets/normal.png').convert_alpha()
 HARD_IMAGE = pg.image.load('assets/hard.png').convert_alpha()
 RESET_IMAGE = pg.image.load('assets/reset.png').convert_alpha()
 RESTART_IMAGE = pg.image.load('assets/restart.png').convert_alpha()
 EXIT_IMAGE = pg.image.load('assets/exit.png').convert_alpha()
+WINNER_IMAGE = pg.image.load('assets/winner.png').convert_alpha()
+LOSER_IMAGE = pg.image.load('assets/loser.png').convert_alpha()
 
-
-MENU_FONT = pg.font.Font(None, 80)
+MENU_FONT = pg.font.Font(None, 90)
 SUB_FONT = pg.font.Font(None, 70)
+END_FONT = pg.font.Font(None, 110)
 
 # Runs playable sudoku board
 def play(game_board):
     pg.display.set_caption("Play")
     SCREEN.fill("black")
     
-    game_board.update_board()
-    game_board.draw()
+    # Uncomment if you want to see the answer key
+    # for r in game_board.answer:
+    #     for c in r:
+    #         print(c, end=" ")
+    #     print()
+    # Keeps track of selected cell
 
-    # Bottom Menu Buttons
-    RESET_BUTTON = Button(100, 910, RESET_IMAGE, 0.15)
-    RESTART_BUTTON = Button(325, 910, RESTART_IMAGE, 0.15)
-    CLEAR_BUTTON = Button(550, 910, EXIT_IMAGE, 0.15)
-    
-    RESET_BUTTON.draw(SCREEN)
-    RESTART_BUTTON.draw(SCREEN)
-    CLEAR_BUTTON.draw(SCREEN)
+    curr_row = 0
+    curr_col = 0
+    while 1:
+        game_board.draw()
 
+        # Bottom Menu Buttons
+        RESET_BUTTON = Button(100, 910, RESET_IMAGE, 0.15)
+        RESTART_BUTTON = Button(325, 910, RESTART_IMAGE, 0.15)
+        EXIT_BUTTON = Button(550, 910, EXIT_IMAGE, 0.15)
+        
+        if RESET_BUTTON.draw(SCREEN):
+            game_board.reset_to_original()
+        if RESTART_BUTTON.draw(SCREEN):
+            menu()
+        if EXIT_BUTTON.draw(SCREEN):
+            pg.quit()
+            sys.exit()
 
-def main():
+        for event in pg.event.get():
+            # Indicates that the current cell is selected
+            if event.type == pg.MOUSEBUTTONDOWN:
+                pos = pg.mouse.get_pos()
+                if(game_board.click(pos[0], pos[1]) != None):
+                    row, col = game_board.click(pos[0], pos[1])
+                    game_board.select(row, col)
+                    curr_row = row
+                    curr_col = col
+            if event.type == pg.KEYDOWN:
+
+                # Updates board value based on key pressed
+                if event.key == pg.K_1:
+                    game_board.sketch(1, curr_row, curr_col)
+                elif event.key == pg.K_2:
+                    game_board.sketch(2, curr_row, curr_col)
+                elif event.key == pg.K_3:
+                    game_board.sketch(3, curr_row, curr_col)
+                elif event.key == pg.K_4:
+                    game_board.sketch(4, curr_row, curr_col)
+                elif event.key == pg.K_5:
+                    game_board.sketch(5, curr_row, curr_col)
+                elif event.key == pg.K_6:
+                    game_board.sketch(6, curr_row, curr_col)
+                elif event.key == pg.K_7:
+                    game_board.sketch(7, curr_row, curr_col)
+                elif event.key == pg.K_8:
+                    game_board.sketch(8, curr_row, curr_col)
+                elif event.key == pg.K_9:
+                    game_board.sketch(9, curr_row, curr_col)
+                elif event.key == pg.K_BACKSPACE:
+                    game_board.clear(curr_row, curr_col)
+                elif event.key == pg.K_RETURN:
+                    game_board.place_number(curr_row, curr_col)
+
+                # Moves selector window accordingly to arrow key presses
+                elif event.key == pg.K_UP:
+                    row -= 1
+                    game_board.select(row, col)
+                elif event.key == pg.K_RIGHT:
+                    col += 1
+                    game_board.select(row, col)
+                elif event.key == pg.K_DOWN:
+                    row += 1
+                    game_board.select(row, col)
+                elif event.key == pg.K_LEFT:
+                    col -= 1
+                    game_board.select(row, col)
+
+            game_board.update_board()
+
+            # Check if the board is complete and correct
+            if game_board.is_full():
+                if game_board.check_board():
+                    # Redirect to win screen
+                    winner_screen()
+                else:
+                    # Redirect to lose screen
+                    loser_screen()
+
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()
+        pg.display.update()
+
+def winner_screen():
+    pg.display.set_caption("WINNER")
+    SCREEN.fill("black")
+    BACKGROUND = pg.transform.scale(WINNER_IMAGE, (int(WINNER_IMAGE.get_width() * 1.3), int(WINNER_IMAGE.get_height() * 1.3)))
+    SCREEN.blit(BACKGROUND, (0, 0))
+
+    TITLE_TEXT = END_FONT.render("Game Won!", 1, "black")
+    TITLE_RECT = TITLE_TEXT.get_rect(center=(SCREEN_WIDTH // 2, 75))
+    SCREEN.blit(TITLE_TEXT, TITLE_RECT)
+    EXIT_BUTTON = Button((SCREEN_WIDTH // 2) - 145, (SCREEN_HEIGHT // 2) - 200, EXIT_IMAGE, 0.2)
+
+    while 1:
+        if EXIT_BUTTON.draw(SCREEN):
+            pg.quit()
+            sys.exit()
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()
+        pg.display.update()
+
+def loser_screen():
+    pg.display.set_caption("LOSER")
+    SCREEN.fill("black")
+    BACKGROUND = pg.transform.scale(LOSER_IMAGE, (int(LOSER_IMAGE.get_width() * 1.3), int(LOSER_IMAGE.get_height() * 1.3)))
+    SCREEN.blit(BACKGROUND, (0, 0))
+
+    TITLE_TEXT = END_FONT.render("Game OVER ;(", 1, "black")
+    TITLE_RECT = TITLE_TEXT.get_rect(center=(SCREEN_WIDTH // 2, 75))
+    SCREEN.blit(TITLE_TEXT, TITLE_RECT)
+
+    RESTART_BUTTON = Button((SCREEN_WIDTH // 2) - 145, (SCREEN_HEIGHT // 2) - 200, RESTART_IMAGE, 0.2)
+
+    while 1:
+        if RESTART_BUTTON.draw(SCREEN):
+            menu()
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                pg.quit()
+                sys.exit()
+        pg.display.update()
+                
+
+def menu():
     pg.display.set_caption("Menu")
     BACKGROUND = pg.transform.scale(BG, (int(BG.get_width() * 3.35), int(BG.get_height() * 3.3)))
     SCREEN.blit(BACKGROUND, (-60, -50))
-    #SCREEN.fill("brown")
+    
     TITLE_TEXT = MENU_FONT.render("Welcome to Sudoku", 1, "brown3")
     TITLE_RECT = TITLE_TEXT.get_rect(center=(SCREEN_WIDTH // 2, 225))
     SUB_TEXT = SUB_FONT.render("Select game mode", 1, "brown3")
@@ -79,15 +204,10 @@ def main():
                 if(difficulty == "easy"): removed = 30
                 elif(difficulty == "medium"): removed = 40
                 else: removed = 50
-                # Creates Board object (minus height by 200 to leave remove on the bottom for other three buttons)
+                # Creates Board object (minus height by 100 to leave remove on the bottom for other three buttons)
                 game_board = Board(SCREEN_WIDTH, SCREEN_HEIGHT - 100, SCREEN, removed)
-                # For debugging purposes (not permanent) 
-                # for r in game_board.board:
-                #     for c in r:
-                #         print(c, end=" ")
-                #     print()
                 played = 1
-            play(game_board)
+                play(game_board)
 
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -97,4 +217,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    menu()

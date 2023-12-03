@@ -36,7 +36,7 @@ class SudokuGenerator:
 	Return: list[list]
     '''
     def get_board(self):
-        copyBoard = self.board[:]
+        copyBoard = [[c for c in self.board[r]] for r in range(len(self.board))]
         return copyBoard
 
     '''

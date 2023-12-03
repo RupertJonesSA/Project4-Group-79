@@ -9,12 +9,15 @@ class Board:
         self.height = height
         self.screen = screen
         self.difficulty = difficulty
-        self.answer, self.board = generate_sudoku(9, difficulty)
-        self.cells = [[Cell(self.board[row][cols], row, cols, self.screen) for cols in range(9)] for row in range(9)]
+        self.answer, self.original_board = generate_sudoku(9, difficulty)
+        self.used_board = [[c for c in self.original_board[r]] for r in range(len(self.original_board))]
+        # Allocates value and "generated" boolean value based on self.board to each cell object 
+        self.cells = [[Cell(self.original_board[row][cols], row, cols, self.screen, 1 if self.original_board[row][cols] != 0 else 0) 
+                       for cols in range(9)] for row in range(9)]
 
     def draw(self):
         self.screen.fill(pg.Color("DarkRed"))
-        margin = 2
+        margin = 0
         # Draw rectangle/square based on width and height attributes
         pg.draw.rect(self.screen, pg.Color("black"), pg.Rect(margin, margin, self.width - margin*2, self.height - margin*2), 10)
         
@@ -31,7 +34,12 @@ class Board:
                 col.draw()
 
     def select(self, row, col):
-        self.cells[row][col].selected = 1
+        # Deselect the one that is currently selected (if there is one)
+        for r in self.cells:
+            for c in r:
+                if c.selected:
+                    c.selected = 0
+        self.cells[row][col].selected = 0 if self.cells[row][col].answered else 1
 
     def click(self, x, y):
         if (x < self.width) and (y < self.height):
@@ -41,42 +49,45 @@ class Board:
         else:
             return None
 
-    def clear(self):
-        self.cells[self.row][self.col].sketch_value = 0
-        self.cells[self.row][self.col].value = 0
+    def clear(self, row, col):
+        # If selected cell is not a generated cell or already answered, clear cell values
+        if(not self.cells[row][col].generated and not self.cells[row][col].answered):
+            self.cells[row][col].sketch_value = 0
+            self.cells[row][col].value = 0
 
-    def sketch(self, value):
-        self.cells[self.row][self.col].set_sketched_value(value)
+    def sketch(self, value, row, col):
+        if(not self.cells[row][col].generated and not self.cells[row][col].answered):
+            self.cells[row][col].set_sketched_value(value)
 
-    def place_number(self, value):
-        self.cells[self.row][self.col].set_cell_value(value)
+    def place_number(self, row, col):
+        if(not self.cells[row][col].generated and not self.cells[row][col].answered):
+            value = self.cells[row][col].sketch_value
+            self.cells[row][col].set_sketched_value(0)
+            self.cells[row][col].set_cell_value(value)
+            # Makes the answered cell unable to be altered or selected
+            self.cells[row][col].answered = 1
 
     def reset_to_original(self):
-        self.cells = [[Cell(self.board[row][cols], row, cols, self.screen) for cols in range(9)] for row in range(9)]
+       # Turn all values of cell back to the original 
+       self.cells = [[Cell(self.original_board[row][cols], row, cols, self.screen, 1 if self.original_board[row][cols] != 0 else 0) 
+                      for cols in range(9)] for row in range(9)] 
+        
 
     def is_full(self):
         for i in range(9):
             for j in range(9):
-                if self.cells[i][j].value == 0:
+                if self.used_board[i][j] == 0:
                     return False
         return True
 
     def update_board(self):
         for i in range(9):
             for j in range(9):
-                self.board[i][j] = self.cells[i][j].value
-
-    def find_empty(self):
-        for i in range(9):
-            for j in range(9):
-                if self.board[i][j] == None:
-                    return True
-        return False
+                self.used_board[i][j] = self.cells[i][j].value
 
     def check_board(self):
-        if self.is_full:
-            for r in range(9):
-                for c in range(9):
-                    if (self.board[r][c] != self.answer[r][c]):
-                        return False
+        for r in range(9):
+            for c in range(9):
+                if (self.used_board[r][c] != self.answer[r][c]):
+                    return False
         return True
