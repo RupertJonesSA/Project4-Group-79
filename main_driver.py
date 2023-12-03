@@ -11,23 +11,23 @@ SCREEN_HEIGHT = 1000
 
 SCREEN = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) 
 
-BG = pg.image.load('assets/real_background.png').convert_alpha()
+BG = pg.image.load('assets/pictures/real_background.png').convert_alpha()
 # src: https://www.google.com/url?sa=i&url=https%3A%2F%2Ftwitter.com%2FPinkySoulOG%2Fstatus%2F1624928442339717128&psig=
 #      AOvVaw1rC3LoDn4R5d7KORUwcnQ9&ust=1701483433610000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCOjTze-V7YIDFQAAAAAdAAAAABAE
 
 # Loading in all the assets and images to be used in the program
-EASY_IMAGE = pg.image.load('assets/easy.png').convert_alpha()
-NORMAL_IMAGE = pg.image.load('assets/normal.png').convert_alpha()
-HARD_IMAGE = pg.image.load('assets/hard.png').convert_alpha()
-RESET_IMAGE = pg.image.load('assets/reset.png').convert_alpha()
-RESTART_IMAGE = pg.image.load('assets/restart.png').convert_alpha()
-EXIT_IMAGE = pg.image.load('assets/exit.png').convert_alpha()
-WINNER_IMAGE = pg.image.load('assets/winner.png').convert_alpha()
-LOSER_IMAGE = pg.image.load('assets/loser.png').convert_alpha()
+EASY_IMAGE = pg.image.load('assets/pictures/easy.png').convert_alpha()
+NORMAL_IMAGE = pg.image.load('assets/pictures/normal.png').convert_alpha()
+HARD_IMAGE = pg.image.load('assets/pictures/hard.png').convert_alpha()
+RESET_IMAGE = pg.image.load('assets/pictures/reset.png').convert_alpha()
+RESTART_IMAGE = pg.image.load('assets/pictures/restart.png').convert_alpha()
+EXIT_IMAGE = pg.image.load('assets/pictures/exit.png').convert_alpha()
+WINNER_IMAGE = pg.image.load('assets/pictures/winner.png').convert_alpha()
+LOSER_IMAGE = pg.image.load('assets/pictures/loser.png').convert_alpha()
 
-MENU_FONT = pg.font.Font(None, 90)
-SUB_FONT = pg.font.Font(None, 70)
-END_FONT = pg.font.Font(None, 110)
+MENU_FONT = pg.font.Font('assets/fonts/Deadwax Extreme DEMO.ttf', 90)
+SUB_FONT = pg.font.Font('assets/fonts/Deadwax Hard DEMO.ttf', 70)
+END_FONT = pg.font.Font('assets/fonts/Deadwax DEMO.ttf', 110)
 
 # Runs playable sudoku board
 def play(game_board):
@@ -68,7 +68,22 @@ def play(game_board):
                     game_board.select(row, col)
                     curr_row = row
                     curr_col = col
+
             if event.type == pg.KEYDOWN:
+
+                # Moves selector window accordingly to arrow key presses
+                if event.key == pg.K_UP:
+                    curr_row -= 1 if curr_row > 0 else 0
+                    game_board.select(curr_row, curr_col)
+                elif event.key == pg.K_RIGHT:
+                    curr_col += 1 if curr_col < 8 else 0
+                    game_board.select(curr_row, curr_col)
+                elif event.key == pg.K_DOWN:
+                    curr_row += 1 if curr_row < 8 else 0
+                    game_board.select(curr_row, curr_col)
+                elif event.key == pg.K_LEFT:
+                    curr_col -= 1 if curr_col > 0 else 0
+                    game_board.select(curr_row, curr_col)
 
                 # Updates board value based on key pressed
                 if event.key == pg.K_1:
@@ -93,20 +108,6 @@ def play(game_board):
                     game_board.clear(curr_row, curr_col)
                 elif event.key == pg.K_RETURN:
                     game_board.place_number(curr_row, curr_col)
-
-                # Moves selector window accordingly to arrow key presses
-                elif event.key == pg.K_UP:
-                    row -= 1
-                    game_board.select(row, col)
-                elif event.key == pg.K_RIGHT:
-                    col += 1
-                    game_board.select(row, col)
-                elif event.key == pg.K_DOWN:
-                    row += 1
-                    game_board.select(row, col)
-                elif event.key == pg.K_LEFT:
-                    col -= 1
-                    game_board.select(row, col)
 
             game_board.update_board()
 
@@ -179,9 +180,9 @@ def menu():
     SCREEN.blit(TITLE_TEXT, TITLE_RECT)
     SCREEN.blit(SUB_TEXT, SUB_RECT)
 
-    EASY_BUTTON = Button(220, 650, EASY_IMAGE, 0.6)
-    NORMAL_BUTTON = Button(370, 650, NORMAL_IMAGE, 0.6)
-    HARD_BUTTON = Button(520, 650, HARD_IMAGE, 0.6)
+    EASY_BUTTON = Button(130, 650, EASY_IMAGE, 0.17)
+    NORMAL_BUTTON = Button(355, 650, NORMAL_IMAGE, 0.17)
+    HARD_BUTTON = Button(580, 650, HARD_IMAGE, 0.17)
 
     run = 1
     difficulty = ""
