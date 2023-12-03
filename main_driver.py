@@ -1,4 +1,14 @@
-# Main driver made by Sami Al-Jamal
+"""
+Main driver made by Sami Al-Jamal
+
+Image sources:
+- real_background.png -> https://www.google.com/url?sa=i&url=https%3A%2F%2Ftwitter.com%2FPinkySoulOG%2Fstatus%2F1624928442339717128&psig=
+                         AOvVaw1rC3LoDn4R5d7KORUwcnQ9&ust=1701483433610000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCOjTze-V7YIDFQAAAAAdAAAAABAE
+- winner.png -> https://i.pinimg.com/736x/91/70/65/917065b2bb6e30b83a630327aa19603b.jpg
+- loser.png -> https://i.pinimg.com/736x/a1/9a/55/a19a552c02f411ca4950f384e2d35c96.jpg
+
+All other images were made by Sami Al-Jamal using Microsoft Paint
+"""
 import pygame as pg
 from sudoku_generator import generate_sudoku
 from board import Board
@@ -12,8 +22,6 @@ SCREEN_HEIGHT = 1000
 SCREEN = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) 
 
 BG = pg.image.load('assets/pictures/real_background.png').convert_alpha()
-# src: https://www.google.com/url?sa=i&url=https%3A%2F%2Ftwitter.com%2FPinkySoulOG%2Fstatus%2F1624928442339717128&psig=
-#      AOvVaw1rC3LoDn4R5d7KORUwcnQ9&ust=1701483433610000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCOjTze-V7YIDFQAAAAAdAAAAABAE
 
 # Loading in all the assets and images to be used in the program
 EASY_IMAGE = pg.image.load('assets/pictures/easy.png').convert_alpha()
