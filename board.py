@@ -74,8 +74,9 @@ class Board:
         return False
 
     def check_board(self):
-        for i in range(9):
-            for j in range(9):
-                if not self.is_valid(i, j, self.board[i][j]):
-                    return False
+        if self.is_full:
+            for r in range(9):
+                for c in range(9):
+                    if (self.board[r][c] != self.answer[r][c]):
+                        return False
         return True
