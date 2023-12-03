@@ -25,9 +25,9 @@ EXIT_IMAGE = pg.image.load('assets/pictures/exit.png').convert_alpha()
 WINNER_IMAGE = pg.image.load('assets/pictures/winner.png').convert_alpha()
 LOSER_IMAGE = pg.image.load('assets/pictures/loser.png').convert_alpha()
 
-MENU_FONT = pg.font.Font('assets/fonts/Deadwax Extreme DEMO.ttf', 90)
-SUB_FONT = pg.font.Font('assets/fonts/Deadwax Hard DEMO.ttf', 70)
-END_FONT = pg.font.Font('assets/fonts/Deadwax DEMO.ttf', 110)
+MENU_FONT = pg.font.Font('assets/fonts/handwriting-black-draft_DEMO.otf', 80)
+SUB_FONT = pg.font.Font('assets/fonts/handwriting-black-draft_DEMO.otf', 60)
+END_FONT = pg.font.Font('assets/fonts/Deadwax Extreme DEMO.ttf', 90)
 
 # Runs playable sudoku board
 def play(game_board):
@@ -131,10 +131,10 @@ def winner_screen():
     BACKGROUND = pg.transform.scale(WINNER_IMAGE, (int(WINNER_IMAGE.get_width() * 1.3), int(WINNER_IMAGE.get_height() * 1.3)))
     SCREEN.blit(BACKGROUND, (0, 0))
 
-    TITLE_TEXT = END_FONT.render("Game Won!", 1, "black")
-    TITLE_RECT = TITLE_TEXT.get_rect(center=(SCREEN_WIDTH // 2, 75))
+    TITLE_TEXT = END_FONT.render("Game Won!", 1, "darkmagenta")
+    TITLE_RECT = TITLE_TEXT.get_rect(center=(SCREEN_WIDTH // 2, 150))
     SCREEN.blit(TITLE_TEXT, TITLE_RECT)
-    EXIT_BUTTON = Button((SCREEN_WIDTH // 2) - 145, (SCREEN_HEIGHT // 2) - 200, EXIT_IMAGE, 0.2)
+    EXIT_BUTTON = Button((SCREEN_WIDTH // 2) - 145, (SCREEN_HEIGHT // 2) + 150, EXIT_IMAGE, 0.2)
 
     while 1:
         if EXIT_BUTTON.draw(SCREEN):
@@ -152,11 +152,11 @@ def loser_screen():
     BACKGROUND = pg.transform.scale(LOSER_IMAGE, (int(LOSER_IMAGE.get_width() * 1.3), int(LOSER_IMAGE.get_height() * 1.3)))
     SCREEN.blit(BACKGROUND, (0, 0))
 
-    TITLE_TEXT = END_FONT.render("Game OVER ;(", 1, "black")
-    TITLE_RECT = TITLE_TEXT.get_rect(center=(SCREEN_WIDTH // 2, 75))
+    TITLE_TEXT = END_FONT.render("Game OVER ;(", 1, "darkmagenta")
+    TITLE_RECT = TITLE_TEXT.get_rect(center=(SCREEN_WIDTH // 2, 150))
     SCREEN.blit(TITLE_TEXT, TITLE_RECT)
 
-    RESTART_BUTTON = Button((SCREEN_WIDTH // 2) - 145, (SCREEN_HEIGHT // 2) - 200, RESTART_IMAGE, 0.2)
+    RESTART_BUTTON = Button((SCREEN_WIDTH // 2) - 145, (SCREEN_HEIGHT // 2) + 150, RESTART_IMAGE, 0.2)
 
     while 1:
         if RESTART_BUTTON.draw(SCREEN):
