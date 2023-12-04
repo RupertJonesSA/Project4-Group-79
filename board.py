@@ -1,3 +1,7 @@
+"""
+Class made by Sami Al-Jamal, Saeed Ansari, and Paraman Galipalli
+"""
+
 from sudoku_generator import generate_sudoku
 from cell import Cell
 import pygame as pg
