@@ -1,5 +1,5 @@
 """
-Main driver made by Sami Al-Jamal
+Main driver made by Sami Al-Jamal, Saeed Ansari, Paraman, Galipalli, and Rogeh Beshay
 
 Image sources:
 - real_background.png -> https://www.google.com/url?sa=i&url=https%3A%2F%2Ftwitter.com%2FPinkySoulOG%2Fstatus%2F1624928442339717128&psig=
