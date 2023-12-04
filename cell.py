@@ -1,4 +1,6 @@
-# Class created by Rogeh Beshay
+"""
+Class created by Sami-Al Jamal and Rogeh Beshay
+"""
 import pygame as pg
 
 class Cell:
