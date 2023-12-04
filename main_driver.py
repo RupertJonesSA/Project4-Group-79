@@ -16,8 +16,8 @@ from button import Button
 import sys 
 
 pg.init()
-SCREEN_WIDTH = 900
-SCREEN_HEIGHT = 1000
+SCREEN_WIDTH = 750
+SCREEN_HEIGHT = 850
 
 SCREEN = pg.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) 
 
@@ -33,9 +33,9 @@ EXIT_IMAGE = pg.image.load('assets/pictures/exit.png').convert_alpha()
 WINNER_IMAGE = pg.image.load('assets/pictures/winner.png').convert_alpha()
 LOSER_IMAGE = pg.image.load('assets/pictures/loser.png').convert_alpha()
 
-MENU_FONT = pg.font.Font('assets/fonts/handwriting-black-draft_DEMO.otf', 80)
-SUB_FONT = pg.font.Font('assets/fonts/handwriting-black-draft_DEMO.otf', 60)
-END_FONT = pg.font.Font('assets/fonts/Deadwax Extreme DEMO.ttf', 90)
+MENU_FONT = pg.font.Font('assets/fonts/handwriting-black-draft_DEMO.otf', 60)
+SUB_FONT = pg.font.Font('assets/fonts/Deadwax DEMO.ttf', 60)
+END_FONT = pg.font.Font('assets/fonts/handwriting-black-draft_DEMO.otf', 90)
 
 # Runs playable sudoku board
 def play(game_board):
@@ -55,9 +55,9 @@ def play(game_board):
         game_board.draw()
 
         # Bottom Menu Buttons
-        RESET_BUTTON = Button(100, 910, RESET_IMAGE, 0.15)
-        RESTART_BUTTON = Button(325, 910, RESTART_IMAGE, 0.15)
-        EXIT_BUTTON = Button(550, 910, EXIT_IMAGE, 0.15)
+        RESET_BUTTON = Button(80, 773.5, RESET_IMAGE, 0.15)
+        RESTART_BUTTON = Button(280, 773.5, RESTART_IMAGE, 0.15)
+        EXIT_BUTTON = Button(480, 773.5, EXIT_IMAGE, 0.15)
         
         if RESET_BUTTON.draw(SCREEN):
             game_board.reset_to_original()
@@ -136,13 +136,13 @@ def play(game_board):
 def winner_screen():
     pg.display.set_caption("WINNER")
     SCREEN.fill("black")
-    BACKGROUND = pg.transform.scale(WINNER_IMAGE, (int(WINNER_IMAGE.get_width() * 1.3), int(WINNER_IMAGE.get_height() * 1.3)))
-    SCREEN.blit(BACKGROUND, (0, 0))
+    BACKGROUND = pg.transform.scale(WINNER_IMAGE, (int(WINNER_IMAGE.get_width() * 1.2), int(WINNER_IMAGE.get_height() * 1.2)))
+    SCREEN.blit(BACKGROUND, (-50, 0))
 
     TITLE_TEXT = END_FONT.render("Game Won!", 1, "darkmagenta")
-    TITLE_RECT = TITLE_TEXT.get_rect(center=(SCREEN_WIDTH // 2, 150))
+    TITLE_RECT = TITLE_TEXT.get_rect(center=((SCREEN_WIDTH // 2) + 30, 70))
     SCREEN.blit(TITLE_TEXT, TITLE_RECT)
-    EXIT_BUTTON = Button((SCREEN_WIDTH // 2) - 145, (SCREEN_HEIGHT // 2) + 150, EXIT_IMAGE, 0.2)
+    EXIT_BUTTON = Button((SCREEN_WIDTH // 2) - 120, (SCREEN_HEIGHT // 2) + 70, EXIT_IMAGE, 0.2)
 
     while 1:
         if EXIT_BUTTON.draw(SCREEN):
@@ -157,14 +157,14 @@ def winner_screen():
 def loser_screen():
     pg.display.set_caption("LOSER")
     SCREEN.fill("black")
-    BACKGROUND = pg.transform.scale(LOSER_IMAGE, (int(LOSER_IMAGE.get_width() * 1.3), int(LOSER_IMAGE.get_height() * 1.3)))
-    SCREEN.blit(BACKGROUND, (0, 0))
+    BACKGROUND = pg.transform.scale(LOSER_IMAGE, (int(LOSER_IMAGE.get_width() * 1.2), int(LOSER_IMAGE.get_height() * 1.2)))
+    SCREEN.blit(BACKGROUND, (-50, 0))
 
-    TITLE_TEXT = END_FONT.render("Game OVER ;(", 1, "darkmagenta")
-    TITLE_RECT = TITLE_TEXT.get_rect(center=(SCREEN_WIDTH // 2, 150))
+    TITLE_TEXT = END_FONT.render("Game Over ;(", 1, "darkmagenta")
+    TITLE_RECT = TITLE_TEXT.get_rect(center=((SCREEN_WIDTH // 2) + 70, 70))
     SCREEN.blit(TITLE_TEXT, TITLE_RECT)
 
-    RESTART_BUTTON = Button((SCREEN_WIDTH // 2) - 145, (SCREEN_HEIGHT // 2) + 150, RESTART_IMAGE, 0.2)
+    RESTART_BUTTON = Button((SCREEN_WIDTH // 2) - 120, (SCREEN_HEIGHT // 2) + 70, RESTART_IMAGE, 0.2)
 
     while 1:
         if RESTART_BUTTON.draw(SCREEN):
@@ -178,7 +178,7 @@ def loser_screen():
 
 def menu():
     pg.display.set_caption("Menu")
-    BACKGROUND = pg.transform.scale(BG, (int(BG.get_width() * 3.35), int(BG.get_height() * 3.3)))
+    BACKGROUND = pg.transform.scale(BG, (int(BG.get_width() * 2.88), int(BG.get_height() * 2.88)))
     SCREEN.blit(BACKGROUND, (-60, -50))
     
     TITLE_TEXT = MENU_FONT.render("Welcome to Sudoku", 1, "brown3")
@@ -188,9 +188,9 @@ def menu():
     SCREEN.blit(TITLE_TEXT, TITLE_RECT)
     SCREEN.blit(SUB_TEXT, SUB_RECT)
 
-    EASY_BUTTON = Button(130, 650, EASY_IMAGE, 0.17)
-    NORMAL_BUTTON = Button(355, 650, NORMAL_IMAGE, 0.17)
-    HARD_BUTTON = Button(580, 650, HARD_IMAGE, 0.17)
+    EASY_BUTTON = Button(97, 552, EASY_IMAGE, 0.13)
+    NORMAL_BUTTON = Button(300, 552, NORMAL_IMAGE, 0.13)
+    HARD_BUTTON = Button(503, 552, HARD_IMAGE, 0.13)
 
     run = 1
     difficulty = ""

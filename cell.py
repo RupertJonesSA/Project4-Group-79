@@ -21,22 +21,22 @@ class Cell:
 
     def draw(self):
         if self.selected:
-            pg.draw.rect(self.screen, "darkorchid1", pg.Rect(self.col * 100, self.row * 100, 100, 100), 6)
+            pg.draw.rect(self.screen, "darkorchid1", pg.Rect(self.col * 83, self.row * 83, 83, 83), 6)
 
         if (self.sketch_value != 0) and (self.value == 0):
             font = pg.font.Font('assets/fonts/OldeEnglish.ttf', 75)
             surface = font.render(str(self.sketch_value), 0, (100, 100, 100))
-            rectangle = surface.get_rect(center=(self.col * 100 + 25, self.row * 100 + 32))
+            rectangle = surface.get_rect(center=(self.col * 83 + 20, self.row * 83 + 30))
             self.screen.blit(surface, rectangle)
          
         elif (self.value != 0) and (self.sketch_value == 0):
             font = pg.font.Font('assets/fonts/OldeEnglish.ttf', 100)
             surface = font.render(str(self.value), 0, (0, 0, 0))
-            rectangle = surface.get_rect(center=(self.col * 100 + 50, self.row * 100 + 50))
+            rectangle = surface.get_rect(center=(self.col * 83 + 41, self.row * 83 + 45))
             self.screen.blit(surface, rectangle)
 
         elif (self.value != 0) and (self.sketch_value != 0):
             font = pg.font.Font('assets/fonts/OldeEnglish.ttf', 100)
             surface = font.render(str(self.value), 0, (128, 128, 128))
-            rectangle = surface.get_rect(center=(self.col * 100 + 50, self.row * 100 + 50))
+            rectangle = surface.get_rect(center=(self.col * 83 + 41, self.row * 83 + 45))
             self.screen.blit(surface, rectangle)

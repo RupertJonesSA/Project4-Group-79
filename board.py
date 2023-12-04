@@ -22,10 +22,10 @@ class Board:
         
         # Iterates based on the dimensions (self.height and self.width). Draws 9 horizontal and 9 vertical lines
         i = 1
-        while (i * 100) < self.height - 30:
+        while (i * 83) < self.height - margin:
             line_width = 5 if i % 3 > 0 else 10
-            pg.draw.line(self.screen, pg.Color("black"), pg.Vector2((i * 100) + margin, margin), pg.Vector2((i * 100) + margin, self.width - margin), line_width)
-            pg.draw.line(self.screen, pg.Color("black"), pg.Vector2(margin, (i * 100) + margin), pg.Vector2(self.height - margin, (i * 100) + margin), line_width)
+            pg.draw.line(self.screen, pg.Color("black"), pg.Vector2((i * 83) + margin, margin), pg.Vector2((i * 83) + margin, self.width - margin), line_width)
+            pg.draw.line(self.screen, pg.Color("black"), pg.Vector2(margin, (i * 83) + margin), pg.Vector2(self.height - margin, (i * 83) + margin), line_width)
             i += 1 
         
         for row in self.cells:
@@ -41,10 +41,11 @@ class Board:
         self.cells[row][col].selected = 0 if self.cells[row][col].answered else 1
 
     def click(self, x, y):
-        if (x < self.width) and (y < self.height):
-            row = y // 100
-            col = x // 100
-            return (int(row), int(col))
+        cell_size = self.width // 9  # Assuming square cells and a 9x9 grid
+        if 0 <= x < self.width and 0 <= y < self.height:
+            row = y // cell_size
+            col = x // cell_size
+            return int(row), int(col)
         else:
             return None
 
